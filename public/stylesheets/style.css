@@ -1,0 +1,41 @@
+@import url("colors.css");
+
+* {
+  font-family: "Titillium Web", sans-serif;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  object-fit: cover;
+}
+
+div.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.min-size {
+  width: 300px;
+}
+
+input.calendar {
+  width: 300px;
+}
+
+button.submit {
+  width: 25%;
+}

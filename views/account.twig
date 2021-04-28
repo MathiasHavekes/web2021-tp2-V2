@@ -1,0 +1,77 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+  <div class="container is-max-desktop">
+    <div class="section is-medium">
+      <div class="box container has-background-black-ter has-text-white-ter centered">
+        <p class="subtitle is-4 has-text-white-ter mt-6 mb-6">Modification du compte</p>
+        <form action="/user/account/submit" method="post">
+          <div class="field has-text-white-ter">
+            <label class="label has-text-white-ter">Prénom</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="surname" placeholder="Jean" value={{ user.surname }} required>
+              <span class="icon is-small is-left">
+                <i class="material-icons-round">face</i>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-white-ter">Nom</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="name" placeholder="Dujardin" value={{ user.name }} required>
+              <span class="icon is-small is-left">
+                <i class="material-icons-round">face</i>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-white-ter">Numéro de téléphone</label>
+            <p class="control has-icons-left">
+              <input class="input" type="tel" name="phone" placeholder="e.g. 438 526 xxxx" value={{ user.phone }} required>
+              <span class="icon is-small is-left">
+                <i class="material-icons-round">phone</i>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-white-ter">Adresse mail</label>
+            <p class="control has-icons-left">
+              <input class="input" type="email" name="email" placeholder="e.g. exemple@.com" value={{ user.email }} required>
+              <i class="fas fa-envelope"></i>
+              <span class="icon is-small is-left">
+                <span class="material-icons-round">mail</span>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-white-ter">Mot de passe</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="password" placeholder="A strong password" value={{ user.password }} required>
+              <span class="icon is-small is-left">
+                <i class="material-icons-round">lock</i>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label has-text-white-ter">Confirmation du mot de passe</label>
+            <p class="control has-icons-left">
+              <input class="input" type="password" name="confirmedPassword" placeholder="********" value={{ user.password }} required>
+              <span class="icon is-small is-left">
+                <i class="material-icons-round">lock</i>
+              </span>
+            </p>
+          </div>
+
+          <button class="button has-background-white-ter has-text-black-ter mt-6 mb-6" type="submit">
+            Valider les modifications
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
