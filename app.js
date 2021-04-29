@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const express = require("express");
-const session = require("express-session");
+//const session = require("express-session");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -26,19 +26,19 @@ app.set("view engine", "twig");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  session({
-    name: "carbay_cookies",
-    cookie: {
-      maxAge: TWO_HOURS,
-      sameSite: true,
-      secure: false,
-    },
-    secret: "carbay",
-    saveUnitialized: false,
-    resave: false,
-  })
-);
+// app.use(
+//   session({
+//     name: "carbay_cookies",
+//     cookie: {
+//       maxAge: TWO_HOURS,
+//       sameSite: true,
+//       secure: false,
+//     },
+//     secret: "carbay",
+//     saveUnitialized: false,
+//     resave: false,
+//   })
+// );
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

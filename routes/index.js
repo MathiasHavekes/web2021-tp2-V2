@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../public/javascripts/dbConnection");
+const pool = require("../db/db");
 var cars = [];
 var isOnline = false;
 
@@ -19,50 +19,57 @@ const destinations = [
   new Destination("images/hiver_quebec.jpg", "L'expérience hivernale", "Il va juste faire un peu plus froid."),
 ];
 
-class Car {
-  constructor({
-    ID_VOITURE,
-    PLAQUE_IMMATRICULATION,
-    MODELE,
-    COULEUR,
-    ETAT,
-    URL_IMAGE,
-    DESCRIPTION_VOITURE,
-  }) {
-    this.src = URL_IMAGE;
-    this.title = MODELE;
-    this.description = DESCRIPTION_VOITURE;
-  }
-}
+// class Car {
+//   constructor({
+//     ID_VOITURE,
+//     PLAQUE_IMMATRICULATION,
+//     MODELE,
+//     COULEUR,
+//     ETAT,
+//     URL_IMAGE,
+//     DESCRIPTION_VOITURE,
+//   }) {
+//     this.src = URL_IMAGE;
+//     this.title = MODELE;
+//     this.description = DESCRIPTION_VOITURE;
+//   }
+// }
 
-pool.getConnection((err, connection) => {
-  if (err) throw err;
+// pool.getConnection((err, connection) => {
+//   if (err) throw err;
 
-  connection.query(
-    "SELECT * FROM VOITURE GROUP BY MODELE ORDER BY MODELE",
-    (err, results, fields) => {
-      if (err) throw err;
-      results.forEach((car) => {
-        cars.push(new Car(car));
-      });
-    }
-  );
-  connection.release();
-});
+//   connection.query(
+//     "SELECT * FROM VOITURE GROUP BY MODELE ORDER BY MODELE",
+//     (err, results, fields) => {
+//       if (err) throw err;
+//       results.forEach((car) => {
+//         cars.push(new Car(car));
+//       });
+//     }
+//   );
+//   connection.release();
+// });
 
-var isOnline = (userId) => {
-  if (userId >= 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
+// var isOnline = (userId) => {
+//   if (userId >= 0) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
+
+// router.get("/", (req, res, next) => {
+//   res.render("index", {
+//     destinations,
+//     cars,
+//     userId: isOnline(req.session.userId),
+//   });
+// });
 
 router.get("/", (req, res, next) => {
   res.render("index", {
     destinations,
     cars,
-    userId: isOnline(req.session.userId),
   });
 });
 

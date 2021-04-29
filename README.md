@@ -1,4 +1,4 @@
-# TP1 du cours d'applications transactionnelles
+# TP2 du cours d'applications transactionnelles
 
 ### Setup le projet avec toutes les dépendances
 
