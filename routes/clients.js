@@ -85,13 +85,19 @@ var clients = [
 //   res.redirect("/user/account");
 // });
 
-router.get("/:email/:password", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
-  const client = await conn.collection('clients').findOne({name: req.params.email});
+  const client = await conn.collection('clients').findOne({_id: req.params.id});
 
   res.json(client);
 });
 
+router.get("/:email/:password", async (req, res, next) => {
+  const conn = await db.connectToMongoDB();
+  const client = await conn.collection('clients').findOne({email: req.params.email});
+
+  res.json(client);
+});
 
 
 module.exports = router;
