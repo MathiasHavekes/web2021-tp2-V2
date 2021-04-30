@@ -1,8 +1,0 @@
-<div class="select location-selection mt-4 mb-6">
-  <select name="{{ name }}" id="{{ name }}" class="min-size">
-    <option value="" disabled selected hidden class="min-size">Choisir un centre</option>
-    {% for l in locations %}
-      <option value="{{ l.id }}" class="min-size">{{ l.name }}</option>
-    {% endfor %}
-  </select>
-</div>

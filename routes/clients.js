@@ -1,7 +1,11 @@
+const { ObjectID } = require("bson");
 const express = require("express");
 const router = express.Router();
-const pool = require("../db/db");
-var user;
+const db = require("../db/db");
+
+var clients = [
+  {id: "1", nom: "Havekes", prenom: "Mathias", email: "123test@gmail.com", phone: "123"},
+];
 
 // class Client {
 //   constructor({
@@ -80,5 +84,14 @@ var user;
 //   });
 //   res.redirect("/user/account");
 // });
+
+router.get("/:email/:password", async (req, res, next) => {
+  const conn = await db.connectToMongoDB();
+  const client = await conn.collection('clients').findOne({name: req.params.email});
+
+  res.json(client);
+});
+
+
 
 module.exports = router;

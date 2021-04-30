@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db/db");
-var cars = [];
-var isOnline = false;
+const db = require("../db/db");
+
 
 class Destination {
   constructor(src, title, description) {
@@ -66,11 +65,13 @@ const destinations = [
 //   });
 // });
 
-router.get("/", (req, res, next) => {
-  res.render("index", {
-    destinations,
-    cars,
-  });
+
+
+router.get("/", async (req, res, next) => {
+  const conn = await db.connectToMongoDB();
+  const cars = await conn.collection("cars").find().toArray();
+
+  res.json(cars);
 });
 
 module.exports = router;
