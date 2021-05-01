@@ -94,7 +94,14 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   console.log(req.body.user);
-  var user = {name: req.body.user.name , surname:req.body.user.surname ,  emailAddress:req.body.user.emailAddress, password:req.body.user.password, phoneNumber:req.body.user.phoneNumber};
+  
+  var user = {
+    name: req.body.user.name , 
+    surname:req.body.user.surname , 
+    emailAddress:req.body.user.emailAddress, 
+    password:req.body.user.password, 
+    phoneNumber:req.body.user.phoneNumber
+  };
   
   const conn = await db.connectToMongoDB();
 
