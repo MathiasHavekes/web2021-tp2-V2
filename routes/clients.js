@@ -88,11 +88,10 @@ var clients = [
 router.get("/:id", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
   const client = await conn.collection('clients').findOne({_id: req.params.id});
-
   res.json(client);
 });
 
-router.post("/signup", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   console.log(req.body.user);
   var user = {name: req.body.user.name , surname:req.body.user.surname ,  emailAddress:req.body.user.emailAddress, password:req.body.user.password, phoneNumber:req.body.user.phoneNumber};
   
@@ -108,13 +107,12 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req,res,next) => {
+router.post("/signin", async (req,res,next) => {
   var authentificator = {emailAddress: req.body.authentificator.emailAddress , password: req.body.authentificator.password};
 
   const conn = await db.connectToMongoDB();
 
-  const client = await conn.collection('clients').findOne(
-   
+  const client = await conn.collection('clients').findOne( 
     {
       $and: [
         { emailAddress: authentificator.emailAddress },
