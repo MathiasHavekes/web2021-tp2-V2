@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
 
-var locations = [];
-
 // class Car {
 //   constructor({
 //     ID_VOITURE,
@@ -141,10 +139,11 @@ var locations = [];
 //   res.redirect("/rent/car");
 // });
 
-router.post("/:userId", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
-  const cars = await conn.collection("cars").find().toArray();
-
+  console.log("YUP");
+  await db.closeConnection();
 });
 
 module.exports = router;
+
