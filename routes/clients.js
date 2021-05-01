@@ -88,7 +88,6 @@ var clients = [
 router.get("/:id", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
   const client = await conn.collection('clients').findOne({_id: req.params.id});
-
   res.json(client);
 });
 
@@ -114,4 +113,29 @@ router.post("/", async (req, res, next) => {
       console.log("Document inserted");
   }
 });
+
+router.post("/signin", async (req,res,next) => {
+  var authentificator = {emailAddress: req.body.authentificator.emailAddress , password: req.body.authentificator.password};
+
+  const conn = await db.connectToMongoDB();
+
+  const client = await conn.collection('clients').findOne( 
+    {
+      $and: [
+        { emailAddress: authentificator.emailAddress },
+        { password: authentificator.password }
+            ]
+    }
+  ); 
+
+  if (client == null){
+    console.log("Account inexsitant");
+    // TODO when account is inexistant
+  }
+  else  {
+    console.log("Account existant");
+    // TODO when account exists
+  }
+})
+
 module.exports = router;
