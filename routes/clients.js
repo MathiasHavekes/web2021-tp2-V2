@@ -85,11 +85,11 @@ var clients = [
 //   res.redirect("/user/account");
 // });
 
-router.get("/:id", async (req, res, next) => {
+/* router.get("/:id", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
   const client = await conn.collection('clients').findOne({_id: req.params.id});
   res.json(client);
-});
+}); */
 
 router.post("/", async (req, res, next) => {
   console.log(req.body.user);
@@ -130,5 +130,14 @@ router.post("/signin", async (req,res,next) => {
     // TODO when account exists
   }
 })
+
+router.get("/account", async (req, res, next) => {
+  console.log('Bonjour');
+  var emailAddress = req.body.emailAddress;
+  const conn = await db.connectToMongoDB();
+  const information = await conn.collection("clients").findOne({emailAddress: emailAddress});
+  console.log(information);
+  res.json(information);
+});
 
 module.exports = router;
