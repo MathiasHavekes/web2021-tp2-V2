@@ -70,8 +70,9 @@ const destinations = [
 router.get("/", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
   const cars = await conn.collection("cars").find().toArray();
-
+  console.log(cars);
   res.json(cars);
+  //await db.closeConnection();
 });
 
 module.exports = router;

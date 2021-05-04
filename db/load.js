@@ -15,7 +15,7 @@ const load = async function() {
 
   await conn.collection("facilities").insertMany([
     {
-      title: "Carbay Rental Montreal Twon Center",
+      title: "Carbay Rental Montreal Town Center",
       adress: "1440 Rue Drummond, Montréal, QC H3B 2E3",
       lat: "45.49906776844369",
       lng: "-73.57574883846779"
@@ -46,7 +46,7 @@ const load = async function() {
       model: "Jaguar I-Pace",
       color: "#063970",
       description: "470 kilomètres, 50 CAD/jour",
-      image: "",
+      image: "jpg",
       pricePerDay: "50",
       state: "libre",
       currentFacilitie: "1",

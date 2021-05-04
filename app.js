@@ -37,6 +37,7 @@ app.use(
     secret: "carbay",
     saveUninitialized: false,
     resave: false,
+    unset: 'destroy'
   })
 );
 

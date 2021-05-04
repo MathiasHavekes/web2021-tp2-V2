@@ -7,6 +7,7 @@ router.get("/", async (req, res, next) => {
   const facilities = await conn.collection("facilities").find().toArray();
 
   res.json(facilities);
+  //await db.closeConnection();
 });
 
 module.exports = router;

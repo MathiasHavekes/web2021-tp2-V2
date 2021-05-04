@@ -142,7 +142,7 @@ const db = require("../db/db");
 router.post("/", async (req, res, next) => {
   const conn = await db.connectToMongoDB();
   console.log("YUP");
-  await db.closeConnection();
+  //await db.closeConnection();
 });
 
 module.exports = router;

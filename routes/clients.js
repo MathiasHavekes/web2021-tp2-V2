@@ -1,11 +1,6 @@
-const { ObjectID } = require("bson");
 const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
-
-var clients = [
-  {id: "1", nom: "Havekes", prenom: "Mathias", email: "123test@gmail.com", phone: "123"},
-];
 
 // class Client {
 //   constructor({
@@ -85,15 +80,7 @@ var clients = [
 //   res.redirect("/user/account");
 // });
 
-router.get("/:id", async (req, res, next) => {
-  const conn = await db.connectToMongoDB();
-  const client = await conn.collection('clients').findOne({_id: req.params.id});
-  res.json(client);
-});
-
-router.post("/", async (req, res, next) => {
-  console.log(req.body.user);
-  
+router.post("/signup", async (req, res, next) => {
   var user = {
     name: req.body.user.name , 
     surname:req.body.user.surname , 
@@ -104,38 +91,43 @@ router.post("/", async (req, res, next) => {
   
   const conn = await db.connectToMongoDB();
 
-  const client = await conn.collection('clients').findOne({emailAddress: user.emailAddress}); 
+  const client = await conn.collection('clients').findOne({ emailAddress: user.emailAddress }); 
   if (client != null) {
     console.log("Email already used");
-  }
-  else {
+  } else {
       await conn.collection("clients").insertOne(user);
       console.log("Document inserted");
   }
+
+  //await db.closeConnection();
 });
 
-router.post("/signin", async (req,res,next) => {
-  var authentificator = {emailAddress: req.body.authentificator.emailAddress , password: req.body.authentificator.password};
+router.post("/signin", async (req, res, next) => {
+  var credentials = { emailAddress: req.body.credentials.emailAddress , password: req.body.credentials.password };
 
   const conn = await db.connectToMongoDB();
 
-  const client = await conn.collection('clients').findOne( 
-    {
-      $and: [
-        { emailAddress: authentificator.emailAddress },
-        { password: authentificator.password }
-            ]
-    }
-  ); 
+  const client = await conn.collection('clients').findOne
+  ({
+    $and: [
+      { emailAddress: credentials.emailAddress },
+      { password: credentials.password }
+    ]
+  }); 
 
-  if (client == null){
+  if (client == null) {
     console.log("Account inexsitant");
-    // TODO when account is inexistant
+    connected = false;
   }
   else  {
     console.log("Account existant");
-    // TODO when account exists
+    req.session.userId = client._id;
+    connected = true;
   }
+
+  res.json({connected});
+
+  //await db.closeConnection();
 })
 
 module.exports = router;
