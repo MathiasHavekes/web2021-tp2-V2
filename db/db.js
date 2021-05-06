@@ -2,29 +2,29 @@ const MongoClient = require('mongodb').MongoClient;
 
 const uri = "mongodb+srv://Admin:carbay@cluster0.xavn5.mongodb.net/carbay";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let db;
 
-let connection = {};
-
-connection.connectToMongoDB = async function() {
-  return client.connect()
-  .then(function(client) {
+const connectToMongoDB = async () => {
+  client.connect().then(() => {
     console.log("Connected to MongoDB");
-    return client.db("carbay");
-  }).catch(function(err) {
-    console.log('Error during connection');
-    throw err;
-  });
+  }).catch((err) => {
+    console.error("Could not connect to MongoDB", err);
+    process.exit(1);
+  })
 }
 
-connection.closeConnection = async function() {
+const closeConnection = async () => {
   client.close()
-  .then(function() {
+  .then(() => {
     console.log("Connection closed");
   })
-  .catch(function(err) {
-    console.log('Error closing connection');
-    throw err;
+  .catch((err) => {
+    console.log('Error closing connection', err);
   });
 }
 
-module.exports = connection;
+module.exports = {
+  connectToMongoDB,
+  closeConnection,
+  client
+};

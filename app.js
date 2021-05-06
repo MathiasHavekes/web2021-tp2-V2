@@ -6,6 +6,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
+// DB
+const db = require("./db/db");
+db.connectToMongoDB();
+
 // Routes
 const facilitiesRouter = require("./routes/facilities");
 const carsRouter = require("./routes/cars");

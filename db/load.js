@@ -1,19 +1,19 @@
-const db = require("./db");
+const {client} = require("./db");
 
 const load = async function() {
-  const conn = await db.connectToMongoDB();
+  await client.connect();
 
-  await conn.dropCollection("facilities");
-  await conn.dropCollection("cars");
-  await conn.dropCollection("clients");
-  await conn.dropCollection("leases");
+  await client.db("carbay").dropCollection("facilities");
+  await client.db("carbay").dropCollection("cars");
+  await client.db("carbay").dropCollection("clients");
+  await client.db("carbay").dropCollection("leases");
 
-  await conn.createCollection("facilities");
-  await conn.createCollection("cars");
-  await conn.createCollection("clients");
-  await conn.createCollection("leases");
+  await client.db("carbay").createCollection("facilities");
+  await client.db("carbay").createCollection("cars");
+  await client.db("carbay").createCollection("clients");
+  await client.db("carbay").createCollection("leases");
 
-  await conn.collection("facilities").insertMany([
+  await client.db("carbay").collection("facilities").insertMany([
     {
       title: "Carbay Rental Montreal Town Center",
       adress: "1440 Rue Drummond, Montréal, QC H3B 2E3",
@@ -39,21 +39,84 @@ const load = async function() {
       lng: "-71.21700334837165"
     },
   ]);
-  
-  await conn.collection("cars").insertMany([
+
+  let firstFacility = await client.db("carbay").collection("facilities").findOne({title: "Carbay Rental Montreal Town Center"});
+  let secondFacility = await client.db("carbay").collection("facilities").findOne({title: "Carbay Rental Montreal AirPort"});
+  let thirdFacility = await client.db("carbay").collection("facilities").findOne({title: "Carbay Rental Trois-Rivières"});
+  let fourthFacility = await client.db("carbay").collection("facilities").findOne({title: "Carbay Rental Quebec"});
+
+  await client.db("carbay").collection("cars").insertMany([
     {
       licensePlate: "935 VGA",
       model: "Jaguar I-Pace",
       color: "#063970",
       description: "470 kilomètres, 50 CAD/jour",
-      image: "jpg",
+      image: "jaguar_i-pace.jpg",
       pricePerDay: "50",
-      state: "libre",
-      currentFacilitie: "1",
-    }
+      state: "free",
+      currentFacility: firstFacility._id,
+    },
+    {
+      licensePlate: "PDG RDV",
+      model: "Jaguar I-Pace",
+      color: "#063970",
+      description: "470 kilomètres, 50 CAD/jour",
+      image: "jaguar_i-pace.jpg",
+      pricePerDay: "50",
+      state: "free",
+      currentFacility: firstFacility._id,
+    },
+    {
+      licensePlate: "935 VGA",
+      model: "Jaguar I-Pace",
+      color: "#063970",
+      description: "470 kilomètres, 50 CAD/jour",
+      image: "jaguar_i-pace.jpg",
+      pricePerDay: "50",
+      state: "free",
+      currentFacility: firstFacility._id,
+    },
+    {
+      licensePlate: "935 VGA",
+      model: "Jaguar I-Pace",
+      color: "#063970",
+      description: "470 kilomètres, 50 CAD/jour",
+      image: "jaguar_i-pace.jpg",
+      pricePerDay: "50",
+      state: "free",
+      currentFacility: firstFacility._id,
+    },
+    {
+      licensePlate: "PDG RDV",
+      model: "Jaguar I-Pace",
+      color: "#063970",
+      description: "470 kilomètres, 50 CAD/jour",
+      image: "jaguar_i-pace.jpg",
+      pricePerDay: "50",
+      state: "free",
+      currentFacility: firstFacility._id,
+    },
+    {
+      licensePlate: "935 VGA",
+      model: "Jaguar I-Pace",
+      color: "#063970",
+      description: "470 kilomètres, 50 CAD/jour",
+      image: "jaguar_i-pace.jpg",
+      pricePerDay: "50",
+      state: "free",
+      currentFacility: secondFacility._id,
+    },
   ]);
 
-  await db.closeConnection();
+  await client.db("carbay").collection("clients").insertOne({
+    name: "Bonisseur de la Bath",
+    surname: "Hubert",
+    emailAdress: "hb@test.com",
+    password: "12345678",
+    phoneNumber: "438 522 2589"
+  });
+
+  await client.close();
 }
 
 load()
