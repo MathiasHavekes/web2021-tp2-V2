@@ -3,6 +3,17 @@ const express = require("express");
 const router = express.Router();
 const {client} = require("../db/db");
 
+async function myFunction(item, index) {
+  const facility = await client.db("carbay").collection("facilities").findOne({_id : ObjectId(item.startFacility) });
+  item.Facility = facility.title;
+  item.AddressFacility  = facility.address;
+
+  const car = await client.db("carbay").collection("cars").findOne({_id : ObjectId(item.car)});
+  item.carModel = car.model;
+  item.carImage = car.image;
+
+}
+
 router.post("/signup", async (req, res, next) => {
   let user = {name: req.body.user.name, surname:req.body.user.surname, emailAddress:req.body.user.emailAddress, password:req.body.user.password, phoneNumber:req.body.user.phoneNumber};
   let isInserted = false;
@@ -54,8 +65,12 @@ router.get("/user/account", async (req, res, next) => {
   res.json(information);
 });
 
-router.get("/user/account/updateInfo", async (req, res, next) => {
-
+router.get("/user/leases", async (req, res, next) => {
+  const leases = await client.db("carbay").collection("leases").find({client : req.session.userId}).toArray();
+  if (leases.length > 0) {
+    leases.forEach(myFunction);
+  }
+  res.json(leases);
 });
 
 router.put("/user/account/updateInfo", async (req, res, next) => {
