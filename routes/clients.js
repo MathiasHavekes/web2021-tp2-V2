@@ -21,7 +21,6 @@ router.post("/signup", async (req, res, next) => {
 
 router.post("/signin", async (req, res, next) => {
   let credentials = { emailAddress: req.body.credentials.emailAddress, password: req.body.credentials.password };
-  console.log(credentials);
   let isConnected = false;
   let userFullName = "";
 
@@ -52,12 +51,23 @@ router.post("/signout", async (req, res, next) => {
 
 router.get("/user/account", async (req, res, next) => {
   const information = await client.db("carbay").collection("clients").findOne({_id: ObjectId(req.session.userId)});
-  console.log(information);
   res.json(information);
 });
 
 router.get("/user/account/updateInfo", async (req, res, next) => {
 
+});
+
+router.put("/user/account/updateInfo", async (req, res, next) => {
+  let values = {$set : { surname : req.body.information.surname, name :  req.body.information.name, password : req.body.information.password }};
+  let query = { _id : ObjectId(req.session.userId) };
+  await client.db("carbay").collection("clients")
+  .findOneAndUpdate(
+      query,
+      values,
+      { new: true, upsert: true, returnOriginal: false });
+  isUpdated = true;
+  res.json({isUpdated});
 });
 
 module.exports = router;
