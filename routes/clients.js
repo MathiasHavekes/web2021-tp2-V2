@@ -21,7 +21,6 @@ router.post("/signup", async (req, res, next) => {
 
 router.post("/signin", async (req, res, next) => {
   let credentials = { emailAddress: req.body.credentials.emailAddress, password: req.body.credentials.password };
-  console.log(credentials);
   let isConnected = false;
   let userFullName = "";
 
