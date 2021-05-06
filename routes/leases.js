@@ -12,10 +12,9 @@ router.post("/register/new", async (req, res, next) => {
   const car = await client.db('carbay').collection("cars").findOneAndUpdate(
     query, 
     values,
-    { new: true, upsert: true, returnOriginal: false },
   );
 
-  let pricePerDay = car.pricePerDay;
+  let pricePerDay = car.value.pricePerDay;
 
   let computeDates = function(startDate, endDate) {
     const timeDiff = Math.abs(new Date(endDate).getTime() - new Date(startDate).getTime());
@@ -30,16 +29,21 @@ router.post("/register/new", async (req, res, next) => {
     client: req.session.userId,
     car: req.body.leaseInfo.car,
     startFacilty: req.body.leaseInfo.facilities.start, 
-    endFacilty: req.body.leaseInfo.facilities.end,
+    endFacility: req.body.leaseInfo.facilities.end,
     startDate: startDate,
     endDate: endDate,
     period: computeDates(startDate, endDate),
     price: computePrice(computeDates(startDate, endDate), pricePerDay),
   };
 
-  await client.db("carbay").collection("leases").insertOne(newLease); 
-
-  res.json({isInserted: true});
+  await client.db("carbay").collection("leases").insertOne(newLease)
+    .then(() => {
+      res.json({ isInserted: true, carModel: car.value.model });
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({ isInserted: false });
+    }); 
 });
 
 module.exports = router;
