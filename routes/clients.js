@@ -4,7 +4,13 @@ const router = express.Router();
 const {client} = require("../db/db");
 
 router.post("/signup", async (req, res, next) => {
-  let user = {name: req.body.user.name, surname:req.body.user.surname, emailAddress:req.body.user.emailAddress, password:req.body.user.password, phoneNumber:req.body.user.phoneNumber};
+  let user = {
+    name: req.body.user.name, 
+    surname:req.body.user.surname, 
+    emailAddress:req.body.user.emailAddress, 
+    password:req.body.user.password, 
+    phoneNumber:req.body.user.phoneNumber
+  };
   let isInserted = false;
   
   const userCheck = await client.db("carbay").collection('clients').findOne({ emailAddress: user.emailAddress }); 
@@ -56,15 +62,17 @@ router.get("/user/account", async (req, res, next) => {
 
 router.get("/user/leases", async (req, res, next) => {
   const leases = await client.db("carbay").collection("leases").find({client : req.session.userId}).toArray();
+
   for ( i = 0 ; i < leases.length ; i++){
     const facility = await client.db("carbay").collection("facilities").findOne({_id : ObjectId(leases[i].startFacility) });
-    leases[i].Facility = facility.title;
-    leases[i].AddressFacility  = facility.address;
+    leases[i].facility = facility.title;
+    leases[i].addressFacility  = facility.address;
 
     const car = await client.db("carbay").collection("cars").findOne({_id : ObjectId(leases[i].car)});
     leases[i].carModel = car.model;
     leases[i].carImage = car.image;
   } 
+
   console.log(leases);
   res.json(leases);
 });
