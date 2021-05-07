@@ -28,7 +28,7 @@ router.post("/register/new", async (req, res, next) => {
   let newLease = { 
     client: req.session.userId,
     car: req.body.leaseInfo.car,
-    startFacilty: req.body.leaseInfo.facilities.start, 
+    startFacility: req.body.leaseInfo.facilities.start, 
     endFacility: req.body.leaseInfo.facilities.end,
     startDate: startDate,
     endDate: endDate,
